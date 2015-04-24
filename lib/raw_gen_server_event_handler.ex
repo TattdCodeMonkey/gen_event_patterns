@@ -1,5 +1,4 @@
-defmodule RawGenServerEvenHandler do
-    use GenServer
+defmodule RawGenServerEventHandler do
     require Logger
     @moduledoc """
     This server adds a basic event handler using add_handler instead of

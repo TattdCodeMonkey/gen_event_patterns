@@ -9,7 +9,7 @@ defmodule HanldersSupervisor do
 
     def init(manager_name) do
         [
-            worker(RawGenServerEvenHandler, [[
+            worker(RawGenServerEventHandler, [[
                 %{name: "raw event handler", manager_name: manager_name}
             ]]),
             worker(GenServerMonitoredEventHandler, [[

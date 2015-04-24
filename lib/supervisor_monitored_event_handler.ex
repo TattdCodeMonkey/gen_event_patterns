@@ -1,5 +1,4 @@
 defmodule SupervisorMonitoredEventHandler do
-    #use GenServer
     require Logger
     @moduledoc """
     starts a monitored EventHandler, and explicitly handles :gen_event_EXIT
