@@ -10,16 +10,8 @@ defmodule EventSupervisor do
         manager_name = :event_manager
         [
             worker(GenEvent, [[name: manager_name]]),
-            # worker(RawGenServerEvenHandler, [[
-            #     %{name: "raw event handler", manager_name: manager_name}
-            # ]]),
-            worker(GenServerMonitoredEventHandler, [[
-                %{name: "server monitored event handler", manager_name: manager_name}
-            ]]),
-            worker(SupervisorMonitoredEventHandler, [[
-                %{name: "sup monitored event handler", manager_name: manager_name}
-            ]])
+            supervisor(HanldersSupervisor, [manager_name])
         ]
-        |> supervise(strategy: :one_for_one)
+        |> supervise(strategy: :one_for_all)
     end
 end
