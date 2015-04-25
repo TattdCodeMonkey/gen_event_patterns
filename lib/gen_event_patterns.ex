@@ -1,5 +1,19 @@
 defmodule GenEventPatterns do
-    @name :event_manager
+    @moduledoc """
+    Call functions in following order to exercise implementations:
+
+    start_test
+
+    test_msg
+
+    crash_handlers
+
+    test_msg
+
+    crash_manager
+
+    test_msg
+    """
 
     def start_test do
         EventSupervisor.start_link
@@ -10,18 +24,9 @@ defmodule GenEventPatterns do
     end
 
     def test_msg(msg) do
-        GenEvent.notify(@name, {:log, msg})
+        GenEvent.notify(:event_manager, {:log, msg})
     end
 
-    def crash_handlers, do: GenEvent.notify(@name, {:crash, "boom"})
-    def crash_manager, do: @name |> Process.whereis |> Process.exit(:boom)
-
-    def run_test do
-        start_test
-        test_msg
-        crash_handlers
-        test_msg
-        crash_manager
-        test_msg
-    end
+    def crash_handlers, do: GenEvent.notify(:event_manager, {:crash, "boom"})
+    def crash_manager, do: :event_manager |> Process.whereis |> Process.exit(:boom)
 end

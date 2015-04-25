@@ -35,6 +35,6 @@ defmodule SupervisorMonitoredEventHandler do
         "starting #{opts.name} monitored handler in supervised server"
         |> Logger.info
 
-        :ok = GenEvent.add_mon_handler(opts.manager_name, SupervisorEventHandler, [])
+        :ok = GenEvent.add_mon_handler(opts.manager_name, SupervisorEventHandler, self())
     end
 end

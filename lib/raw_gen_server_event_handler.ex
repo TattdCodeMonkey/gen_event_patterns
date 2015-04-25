@@ -13,7 +13,7 @@ defmodule RawGenServerEventHandler do
     def init([opts]) do
         Logger.info("starting #{opts.name} handler")
 
-        GenEvent.add_handler(opts.manager_name, EventHandler, [])
+        GenEvent.add_handler(opts.manager_name, EventHandler, self())
         {:ok, opts}
     end
 end

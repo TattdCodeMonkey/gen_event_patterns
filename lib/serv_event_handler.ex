@@ -1,32 +1,32 @@
 defmodule ServerEventHandler do
     use GenEvent
     require Logger
-    @moduledoc """ 
+    @moduledoc """
     Event Handler that will be monitored with a plain GenServer
     """
 
-    def init(_) do
-       {:ok, {}}
+    def init(parent) do
+       {:ok, parent}
 	end
 
-    def handle_event({:log, msg}, state) do
+    def handle_event({:log, msg}, parent) do
         "handled log: #{inspect msg} in #{__MODULE__}"
         |> Logger.info
 
-        {:ok, state}
+        {:ok, parent}
     end
 
-    def handle_event({:crash, _}, state) do
+    def handle_event({:crash, _}, parent) do
         "crash event handler #{__MODULE__}"
         |> Logger.info
 
         1 = 2
     end
 
-    def handle_event(event, state) do
+    def handle_event(event, parent) do
         "handled event: #{inspect event} in #{__MODULE__}"
         |> Logger.info
 
-        {:ok, state}
+        {:ok, parent}
     end
 end

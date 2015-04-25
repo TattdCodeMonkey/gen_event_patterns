@@ -14,7 +14,7 @@ defmodule GenServerMonitoredEventHandler do
         "starting #{opts.name} monitored handler"
         |> Logger.info
 
-        :ok = GenEvent.add_mon_handler(opts.manager_name, ServerEventHandler, [])
+        :ok = GenEvent.add_mon_handler(opts.manager_name, ServerEventHandler, self())
         {:ok, opts}
     end
 end
