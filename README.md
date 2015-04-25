@@ -18,29 +18,29 @@ defmodule EventHandler do
   use GenEvent
   require Logger
 
-  def init(_) do
-    {:ok, {}}
+  def init(parent) do
+    {:ok, parent}
   end
 
-  def handle_event({:log, msg}, state) do
+  def handle_event({:log, msg}, parent) do
     "handled log: #{inspect msg} in #{__MODULE__}"
     |> Logger.info
 
-    {:ok, state}
+    {:ok, parent}
   end
 
-  def handle_event({:crash, _}, state) do
+  def handle_event({:crash, _}, parent) do
     "crash event handler #{__MODULE__}"
     |> Logger.info
 
     1 = 2
   end
 
-  def handle_event(event, state) do
+  def handle_event(event, parent) do
     "handled event: #{inspect event} in #{__MODULE__}"
     |> Logger.info
 
-    {:ok, state}
+    {:ok, parent}
   end
 end
 ```
@@ -54,7 +54,7 @@ defmodule EventHandlerServer do
   end
 
   def init([opts]) do
-    GenEvent.add_handler(opts.manager_name, EventHandler, [])
+    GenEvent.add_handler(opts.manager_name, EventHandler, self())
 
     {:ok, opts}
   end
@@ -69,7 +69,7 @@ defmodule EventHandlerServer do
   end
 
   def init([opts]) do
-    :ok = GenEvent.add_mon_handler(opts.manager_name, EventHandler, [])
+    :ok = GenEvent.add_mon_handler(opts.manager_name, EventHandler, self())
 
     {:ok, opts}
   end
@@ -90,7 +90,7 @@ defmodule EventHandlerServer do
   end
 
   def start_handler(opts) do
-    :ok = GenEvent.add_mon_handler(opts.manager_name, EventHandler, [])
+    :ok = GenEvent.add_mon_handler(opts.manager_name, EventHandler, self())
   end
 
   def handle_info({:gen_event_EXIT, handler, reason}, state)
