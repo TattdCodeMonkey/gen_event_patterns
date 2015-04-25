@@ -4,11 +4,11 @@ Elixir GenEvent Testing
 This project is used to show three methods of adding event handlers to a `GenEvent` manager.
 
 1. use `add_handler`:
-this adds a handler to the `GenEvent` manager, but does not do any supervision and is not fault tolerant
+  - this adds a handler to the `GenEvent` manager, but does not do any supervision and is not fault tolerant
 2. use `add_mon_handler` without handling exits:
-this adds a monitored handler to the `GenEvent` manager, but does not explicitly handle :gen_event_EXIT messages. instead it relies on crashing the server its in so that it can be restarted by its supervisor
+  - this adds a monitored handler to the `GenEvent` manager, but does not explicitly handle :gen_event_EXIT messages. instead it relies on crashing the server its in so that it can be restarted by its supervisor
 3. user `add_mon_handler` handle exits:
-this adds a monitored handler to the `GenEvent` manager, and explicitly handles exits. reading the event handler for any reason that is not `:normal` or `:shutdown`
+  - this adds a monitored handler to the `GenEvent` manager, and explicitly handles exits. reading the event handler for any reason that is not `:normal` or `:shutdown`
 
 In addition to the three handlers there are also two supervisors. One supervisor manages the three handlers with a `:one_for_one` strategy. The other manages the `GenEvent` manager and the handlers supervisor with a `:one_for_all` strategy. This ensures the handlers are re-added if the manager crashes for any reason.
 
